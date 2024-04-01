@@ -1,7 +1,5 @@
 package java_player;
-
 import java.util.ArrayList;
-
 public class albom {
     private ArrayList<song> songs;
     private int cur_song;
