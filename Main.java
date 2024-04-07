@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import packages.*;
@@ -5,16 +6,16 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static player my_player = new player();
     public static void main(String [] args) {
-        
+        int option=0;
         out_menu();
-        int option = scanner.nextInt();
+        option = input_int();
+        
         while (option != 0) {
             switch (option) { 
                 case 0:
                     break;
                 case 1:
                     my_player.out_songs();
-                    out_menu();
                     break;
                 case 2:
                     add_albom();
@@ -27,21 +28,21 @@ public class Main {
                     break;
                 case 5:
                     System.out.println("Enter index of albom");
-                    int ind = scanner.nextInt();
+                    int ind = input_int();
                     my_player.remove_albom(ind);
                     break;
                 case 6:
-                    albom _albom = pick_albom();
-                    song [] songs = pick_songs();
-                    for (int i=0;i<songs.length;i++)
-                        _albom.add_song(songs[i]);
+                    System.out.println("Enter path to song");
+                    String path = scanner.next();
+                    my_player.get_cur_albom().add_song(new song(path));
+                    // 6 - добавить песню в плейлист (по номеру, по названию, по исполнителю)
                     break;
                 case 7:
                     my_player.get_cur_albom().out();
                     break;
                 case 8:
                     System.out.println("Enter index of song to remove");
-                    int _ind = scanner.nextInt();
+                    int _ind = input_int();
                     my_player.get_cur_albom().remove_song(_ind);
                     break;
                 case 9:
@@ -56,9 +57,11 @@ public class Main {
                 case 12:
                     my_player.out_alboms();
                     break;
+                default:
+                    System.out.println("Wrong option");
             }
             out_menu();
-            option = scanner.nextInt();
+            option = input_int();
         }
         scanner.close();
 
@@ -83,19 +86,17 @@ public class Main {
         System.out.println("Enter name of albom");
         String name = scanner.next();
         System.out.println("if you want to chose index of albom input non 0 integer value");
-        int index = scanner.nextInt();
+        int index = input_int();
         if (index != 0) {
             my_player.add_albom(new albom(name), index);
         }
         else {
             my_player.add_albom(name);
         }
-        System.out.print("\033[H\033[J");
-        out_menu();
     }
-    private static song[] pick_songs() { 
+    /*private static song[] pick_songs() { 
         System.out.println("if you want Enter name of song to add input 0, if you want to chose index of song input 1, if you want add all artist's songs input 2");
-        int menu = scanner.nextInt();
+        int menu = input_int();
         song[] songs = new song[1];
         switch (menu) {
             case 0:
@@ -103,7 +104,7 @@ public class Main {
                 songs[0] = my_player.get_song(name);
                 return songs;
             case 1:
-                int ind = scanner.nextInt();
+                int ind = input_int();
                 songs[0] = my_player.get_song(ind);
                 return songs;
             case 2:
@@ -113,20 +114,29 @@ public class Main {
                 System.out.println("Wrong input");
                 return null;
         }
-    }
+    }*/
     private static albom pick_albom() { 
         System.out.println("if you want Enter name of albom input 0, if you want to chose index of albom input 1");
-        int menu = scanner.nextInt();
+        int menu = input_int();
         switch (menu) {
             case 0:
                 String name = scanner.next();
                 return my_player.get_albom(name);
             case 1:
-                int ind = scanner.nextInt();
+                int ind = input_int();
                 return my_player.get_albom(ind);
             default:
                 System.out.println("Wrong input");
                 return null;
         }
+    }
+    private static int input_int() {
+        int option = 0;
+        try {
+            option = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            throw new InputMismatchException("excepted input " + "int" + " got " + scanner.next());
+        }
+        return option;
     }
 }

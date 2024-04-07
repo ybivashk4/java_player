@@ -40,7 +40,7 @@ public class player {
     }
     public void remove_albom(String name) {
         for (int i=0;i<alboms.size();i++) {
-            if (alboms.get(i).get_name() == name) {
+            if (alboms.get(i).get_name().equals(name)) {
                 alboms.remove(i);
                 if (cur_albom == alboms.size()) cur_albom--;
                 break;
@@ -55,7 +55,9 @@ public class player {
         }
     }
     public void add_albom(albom _albom, int index) {
-        if (index > alboms.size()) index = alboms.size();
+        if (index > alboms.size() || index <= 0) index = alboms.size();
+        index--;
+        if (index < 0) index = 0;
         alboms.add(index, _albom);
         song [] _songs = _albom.get_songs();
         for (int i=0;i<_songs.length;i++) {
@@ -97,7 +99,7 @@ public class player {
 
     public song get_song(String name) {
         for (int i=0;i<songs.size();i++) {
-            if (songs.get(i).get_name() == name) {
+            if (songs.get(i).get_name().equals(name)) {
                 return songs.get(i);
             }
         }
@@ -125,7 +127,7 @@ public class player {
     }
     public albom get_albom(String name) {
         for (int i=0;i<alboms.size();i++) {
-            if (alboms.get(i).get_name() == name) {
+            if (alboms.get(i).get_name().equals(name)) {
                 return alboms.get(i);
             }
         }

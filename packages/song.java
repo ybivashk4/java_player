@@ -18,16 +18,14 @@ public class song {
             duration = Long.parseLong(scanner.nextLine());
         }
         catch (FileNotFoundException e) {
-            System.out.println(path + " not found" + this.getClass());
+            System.out.println(path + " not found " + this.getClass());
         }
     }
     public String get_name() {return name;}
     public String get_artist() {return artist;}
     public long get_duration() {return duration;}
     public void out() {
-        System.out.println(name);
-        System.out.println(artist);
-        System.out.println(duration);
+        System.out.println(name + " " + artist + " " + duration + " sec");
     }
     public void save_song(String path) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
