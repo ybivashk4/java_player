@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class song {
@@ -28,7 +31,23 @@ public class song {
         System.out.println(name + " " + artist + " " + duration + " sec");
     }
     public void save_song(String path) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+        String currentPath = "";
+        try {
+            currentPath = new File(".").getCanonicalPath();
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage() + ": error in " + e.getClass());
+        }
+        File targetFile = new File(currentPath + path);
+        targetFile.delete();
+        Path newFilePath = Paths.get(currentPath + path);
+        try {
+            Files.createFile(newFilePath);
+        }
+        catch (IOException e) {
+            System.out.println("Wrong path: " + path + " in class" + this.getClass());
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentPath + path))) {
             writer.write(name + "\n");
             writer.write(artist + "\n");
             writer.write(duration + "\n");

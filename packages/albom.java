@@ -1,5 +1,7 @@
 package packages;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
 
 public class albom {
@@ -87,8 +89,21 @@ public class albom {
     }
     // didn't work
     public void save_albom() {
-        File theDir = new File("/music/" + name);
-        if (!theDir.exists()) {theDir.mkdir();System.out.println("asd");}
+        String currentPath = "";
+        try {
+            currentPath = new File(".").getCanonicalPath();
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage() + ": error in " + e.getClass());
+        }
+        Path theDir = Paths.get(currentPath + "/music/" + name);
+        try {
+            Files.createDirectories(theDir);
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage() + ": error in " + e.getClass());
+        }
+
         for (int i=0;i<songs.size();i++) {
             songs.get(i).save_song("/music/" + name + "/\"" + songs.get(i).get_name() + "\".mp3");
         }
