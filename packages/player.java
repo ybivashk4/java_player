@@ -1,8 +1,14 @@
 package packages;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-
-public class player {
+import java.util.List;
+public class player{
     private ArrayList<albom> alboms;
     private int cur_albom;
     private ArrayList<song> songs;
@@ -25,6 +31,7 @@ public class player {
         }
     }
     public albom get_cur_albom() {
+        if (alboms.size() == 0) return null;
         return alboms.get(cur_albom);
     }
 
@@ -138,4 +145,54 @@ public class player {
         ind--;
         return alboms.get(ind);
     }
+    public void play() {
+        if (alboms.size() > 0)
+            alboms.get(cur_albom).get_cur_song().out();
+        else 
+            System.out.println("no songs in albom");
+    }
+    // не работает
+    public void load_albom(String path) {
+        String currentPath = "";
+        try {
+            currentPath = new File(".").getCanonicalPath();
+        }
+        catch (IOException e) {
+            System.out.println(e.getMessage() + ": error in " + e.getClass());
+        }
+        String absPath = currentPath + "/" + path + "/";
+        Path newFilePath = Paths.get(absPath);
+        if (!Files.isDirectory(newFilePath)) {
+            System.out.println("Wrong path: " + absPath + " in " + this.getClass());
+            return;
+        }
+        String temp [] = newFilePath.normalize().toString().replace("\\", "/").split("/");
+        alboms.add(new albom(temp[temp.length-1]));
+        cur_albom = alboms.size()-1;
+
+        List<Path> files = new ArrayList<>();
+        DirectoryStream<Path> stream;
+        try {
+            stream = Files.newDirectoryStream(newFilePath);
+        }
+        catch(IOException e) {
+            System.out.println("Unexcepted error1 in: " + this.getClass() + "\n" + e.getMessage());
+            return;
+        }
+
+        for (Path entry : stream) {
+          files.add(entry);
+        }
+
+        try {
+            stream.close();
+        }
+        catch(IOException e) {
+            System.out.println("Unexcepted error2 in: " + this.getClass() + "\n" + e.getMessage());
+            return;
+        }
+        for (Path file : files) {
+            alboms.get(alboms.size()-1).add_song(new song(file.toString()));
+        }
+   }
 }
