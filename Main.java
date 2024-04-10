@@ -11,6 +11,10 @@ public class Main {
         option = input_int();
         
         while (option != 0) {
+            if (my_player.get_cur_albom() == null && (option != 2 && option != 14)) {
+                System.out.println("No albom");
+                option = -1;
+            }
             switch (option) { 
                 case 0:
                     break;
@@ -47,15 +51,26 @@ public class Main {
                     break;
                 case 9:
                     my_player.get_cur_albom().previous_song();
+                    my_player.play();
                     break;
                 case 10:
                     my_player.get_cur_albom().next_song();
+                    my_player.play();
                     break; 
                 case 11:
                     my_player.get_cur_albom().get_cur_song();
+                    my_player.play();
                     break;
                 case 12:
                     my_player.out_alboms();
+                    break;
+                case 13:
+                    my_player.play();
+                    break;
+                case 14:
+                    System.out.println("Input path to albom");
+                    String _path = scanner.next();
+                    my_player.load_albom(_path);
                     break;
                 default:
                     System.out.println("Wrong option");
@@ -80,6 +95,8 @@ public class Main {
         System.out.println("10. Previous song");
         System.out.println("11. Repeat song");
         System.out.println("12. Out alboms");
+        System.out.println("13. Play");
+        System.out.println("14. load albom");
         
     }
     private static void add_albom() { 
@@ -140,3 +157,5 @@ public class Main {
         return option;
     }
 }
+// текущая песня (play), prev, next, repeat вывод песни 
+// загрузка из файла

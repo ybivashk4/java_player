@@ -39,6 +39,7 @@ public class albom {
         if (cur_song - 1 >= 0) cur_song--;
         else cur_song = songs.size()-1;
         if (songs.size() == 0) return null;
+        System.out.println(songs.size());
         return songs.get(cur_song);
     }
     public String get_name() {return name;}
