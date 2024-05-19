@@ -1,7 +1,8 @@
+package java_player;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java_player.packages.*;
 
-import packages.*;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static player my_player = new player();

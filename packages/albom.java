@@ -1,4 +1,4 @@
-package packages;
+package java_player.packages;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -87,7 +87,6 @@ public class albom {
         return _songs;
 
     }
-    // didn't work
     public void save_albom() {
         String currentPath = "";
         try {
@@ -108,6 +107,13 @@ public class albom {
             songs.get(i).save_song("/music/" + name + "/\"" + songs.get(i).get_name() + "\".mp3");
         }
 
+    }
+    public void clear() {
+        songs.clear();
+        cur_song = 0;
+    }
+    public boolean equals(albom albom) {
+        return albom != null && this.name.equals(albom.get_name()) && this.get_songs().equals(albom.get_songs());
     }
 }
 // equals, hashcode

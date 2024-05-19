@@ -1,5 +1,4 @@
-package packages;
-
+package java_player.packages;
 import java.util.ArrayList;
 
 public class player {
@@ -8,6 +7,7 @@ public class player {
     private ArrayList<song> songs;
     public player() { 
         alboms = new ArrayList<>();
+        songs = new ArrayList<>();
         cur_albom = 0;
     }
     public void set_cur_albom(int i) { 
@@ -137,5 +137,12 @@ public class player {
         if (ind > alboms.size() || ind <= 0) { return null; }
         ind--;
         return alboms.get(ind);
+    }
+    public void clear() {
+        if (alboms != null)
+            alboms.clear();
+        if (songs != null)
+            songs.clear();
+        cur_albom = 0;
     }
 }

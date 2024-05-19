@@ -1,4 +1,4 @@
-package packages;
+package java_player.packages;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,14 +14,21 @@ public class song {
     private String name;
     private String artist;
     private long duration;
-    public song (String path) {
-        try (Scanner scanner = new Scanner(new File(path))) {
+    public song (String path){
+        String can_path = ".";
+        try {
+            can_path = new File(".").getCanonicalPath();
+        }
+        catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        try (Scanner scanner = new Scanner(new File(can_path + path))) {
             name = scanner.nextLine();
             artist = scanner.nextLine();
             duration = Long.parseLong(scanner.nextLine());
         }
         catch (FileNotFoundException e) {
-            System.out.println(path + " not found " + this.getClass());
+            System.out.println(can_path + path + " not found in" + this.getClass());
         }
     }
     public String get_name() {return name;}
@@ -55,5 +62,9 @@ public class song {
         catch(IOException e) {
             System.out.println(path + " not found" + this.getClass());
         }
+    }
+    public boolean equals(song song) {
+        if (song == null) return false;
+        return name.equals(song.name) && artist.equals(song.artist) && duration == song.duration;
     }
 }
